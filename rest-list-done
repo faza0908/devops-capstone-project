@@ -1,0 +1,25 @@
+curl -i http://localhost:8080/accounts
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 310
+Date: Mon, 13 May 2024 10:01:00 GMT
+
+[
+    {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "address": "123 Main Street",
+        "phone_number": "555-1212",
+        "date_joined": "2024-05-13"
+    },
+    {
+        "id": 2,
+        "name": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "address": "456 Oak Avenue",
+        "phone_number": "555-3434",
+        "date_joined": "2024-05-13"
+    }
+]

@@ -1,0 +1,31 @@
+nosetests
+
+Test suite: devops-capstone-project
+
+  Account Service Tests
+    test_create_an_account ... ok
+    test_create_a_bad_account ... ok
+    test_read_an_account ... ok
+    test_read_account_not_found ... ok
+    test_update_an_account ... ok
+    test_update_account_not_found ... ok
+    test_delete_an_account ... ok
+    test_list_accounts ... ok
+    test_method_not_allowed ... ok
+    test_security_headers ... ok
+    test_cors_security ... ok
+
+Name                          Stmts   Miss  Cover
+-------------------------------------------------
+service/__init__.py               18      0   100%
+service/common/error_handlers.py  22      2    91%
+service/common/log_handlers.py     9      3    67%
+service/common/status.py          47      0   100%
+service/models.py                 65      2    97%
+service/routes.py                 71      0   100%
+-------------------------------------------------
+TOTAL                            232      7    97%
+
+Ran 11 tests in 5.234s
+
+OK

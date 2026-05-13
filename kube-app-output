@@ -1,0 +1,8 @@
+{
+    "status": "OK",
+    "name": "Accounts REST API Service",
+    "version": "1.0",
+    "url": "http://localhost:8080/accounts",
+    "description": "IBM DevOps Capstone Accounts Microservice",
+    "environment": "production"
+}

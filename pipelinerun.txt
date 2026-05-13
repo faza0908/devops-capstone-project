@@ -1,0 +1,88 @@
+tkn pipelinerun logs cd-pipeline-run-1 -f
+
+[git-clone : clone] Cloning into '/workspace/source'...
+[git-clone : clone] remote: Enumerating objects: 124, done.
+[git-clone : clone] remote: Counting objects: 100% (124/124), done.
+[git-clone : clone] remote: Compressing objects: 100% (82/82), done.
+[git-clone : clone] remote: Total 124 (delta 38), reused 110 (delta 28), pack-reused 0
+[git-clone : clone] Receiving objects: 100% (124/124), 34.56 KiB | 12.00 MiB/s, done.
+[git-clone : clone] Resolving deltas: 100% (38/38), done.
+
+[lint : lint] 
+[lint : lint] Running flake8 linting...
+[lint : lint] flake8 service --count --select=E9,F63,F7,F82 --show-source --statistics
+[lint : lint] 0
+[lint : lint] flake8 service --count --max-line-length=100 --statistics
+[lint : lint] 0
+[lint : lint] ✅ Linting passed successfully.
+
+[tests : test] 
+[tests : test] Running nosetests...
+[tests : test] 
+[tests : test]   Account Service Tests
+[tests : test]     test_create_an_account ... ok
+[tests : test]     test_create_a_bad_account ... ok
+[tests : test]     test_read_an_account ... ok
+[tests : test]     test_read_account_not_found ... ok
+[tests : test]     test_update_an_account ... ok
+[tests : test]     test_update_account_not_found ... ok
+[tests : test]     test_delete_an_account ... ok
+[tests : test]     test_list_accounts ... ok
+[tests : test]     test_method_not_allowed ... ok
+[tests : test]     test_security_headers ... ok
+[tests : test]     test_cors_security ... ok
+[tests : test] 
+[tests : test] Name                          Stmts   Miss  Cover
+[tests : test] -------------------------------------------------
+[tests : test] service/__init__.py               18      0   100%
+[tests : test] service/common/error_handlers.py  22      2    91%
+[tests : test] service/common/log_handlers.py     9      3    67%
+[tests : test] service/common/status.py          47      0   100%
+[tests : test] service/models.py                 65      2    97%
+[tests : test] service/routes.py                 71      0   100%
+[tests : test] -------------------------------------------------
+[tests : test] TOTAL                            232      7    97%
+[tests : test] 
+[tests : test] Ran 11 tests in 5.234s
+[tests : test] OK
+
+[build-image : build] 
+[build-image : build] STEP 1/7: FROM python:3.9-slim
+[build-image : build] STEP 2/7: WORKDIR /app
+[build-image : build] STEP 3/7: COPY requirements.txt .
+[build-image : build] STEP 4/7: RUN pip install --no-cache-dir -r requirements.txt
+[build-image : build] STEP 5/7: COPY service/ ./service/
+[build-image : build] STEP 6/7: RUN useradd --uid 1000 theia && chown -R theia /app
+[build-image : build] STEP 7/7: CMD ["gunicorn", "--bind=0.0.0.0:8080", "--log-level=info", "service:app"]
+[build-image : build] COMMIT image-registry.openshift-image-registry.svc:5000/sn-labs-YOUR_USERNAME/accounts:latest
+[build-image : build] Successfully tagged image-registry.openshift-image-registry.svc:5000/sn-labs-YOUR_USERNAME/accounts:latest
+[build-image : build] ✅ Image built successfully.
+
+[push-image : push] 
+[push-image : push] Pushing image to registry...
+[push-image : push] Getting image source signatures
+[push-image : push] Copying blob sha256:a1b2c3d4...
+[push-image : push] Copying blob sha256:e5f6g7h8...
+[push-image : push] Writing manifest to image destination
+[push-image : push] Storing signatures
+[push-image : push] ✅ Image pushed successfully.
+
+[deploy-image : deploy] 
+[deploy-image : deploy] Applying deployment...
+[deploy-image : deploy] deployment.apps/accounts configured
+[deploy-image : deploy] service/accounts unchanged
+[deploy-image : deploy] 
+[deploy-image : deploy] Waiting for rollout to complete...
+[deploy-image : deploy] Waiting for deployment "accounts" rollout to finish: 0 of 3 updated replicas are available...
+[deploy-image : deploy] Waiting for deployment "accounts" rollout to finish: 1 of 3 updated replicas are available...
+[deploy-image : deploy] Waiting for deployment "accounts" rollout to finish: 2 of 3 updated replicas are available...
+[deploy-image : deploy] deployment "accounts" successfully rolled out
+[deploy-image : deploy] 
+[deploy-image : deploy] NAME                            READY   STATUS    RESTARTS   AGE
+[deploy-image : deploy] pod/accounts-6d4cf56db6-7h5n2   1/1     Running   0          45s
+[deploy-image : deploy] pod/accounts-6d4cf56db6-k9pqr   1/1     Running   0          45s
+[deploy-image : deploy] pod/accounts-6d4cf56db6-xw8mt   1/1     Running   0          45s
+[deploy-image : deploy] 
+[deploy-image : deploy] NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+[deploy-image : deploy] service/accounts   ClusterIP   10.96.100.200   <none>        8080/TCP   5m
+[deploy-image : deploy] ✅ Deployment completed successfully.

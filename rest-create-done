@@ -1,0 +1,18 @@
+curl -i -X POST http://localhost:8080/accounts \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Doe", "email": "john.doe@example.com", "address": "123 Main Street", "phone_number": "555-1212"}'
+
+HTTP/1.1 201 CREATED
+Content-Type: application/json
+Content-Length: 149
+Location: http://localhost:8080/accounts/1
+Date: Mon, 13 May 2024 10:00:00 GMT
+
+{
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "address": "123 Main Street",
+    "phone_number": "555-1212",
+    "date_joined": "2024-05-13"
+}
